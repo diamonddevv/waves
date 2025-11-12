@@ -1,9 +1,10 @@
 import pygame
 
 from src import consts
+from src.scene import scene
 
 class Window():
-    def __init__(self) -> None:
+    def __init__(self, default_scene: type[scene.Scene]) -> None:
         self.window = pygame.window.Window(
             title=consts.TITLE,
             size=consts.WINDOW_DIMS,
@@ -15,6 +16,8 @@ class Window():
 
         self.clock = pygame.Clock()
         self.keep_open = False
+
+        self.scene_manager = scene.SceneManager(default_scene)
 
 
     def start(self):
