@@ -28,6 +28,9 @@ class Window():
             self.event(dt)
             self.update(dt)
             self.draw(self.canvas)
+
+            self.window_surface.blit(pygame.transform.scale(self.canvas, self.window_surface.size))
+
             self.window.flip()
             dt = self.clock.tick(consts.TARGET_FRAMERATE) / 1000
 
@@ -35,10 +38,11 @@ class Window():
 
 
     def draw(self, cvs: pygame.Surface):
-        pass
+        cvs.fill(0x0)
+        self.scene_manager.draw_current(cvs)
 
     def update(self, dt: float):
-        pass
+        self.scene_manager.update_current(dt)
 
     def event(self, dt: float):
         for e in pygame.event.get():
