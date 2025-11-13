@@ -8,5 +8,5 @@ from src.scene import scenes
 if __name__ == "__main__":
     pygame.init()
 
-    wnd = window.Window(scenes.TestScene)
+    wnd = window.Window(scenes.WorldScene)
     wnd.start()
