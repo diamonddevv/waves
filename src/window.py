@@ -1,7 +1,8 @@
 import pygame
 
 from src import consts
-from src.scene import scene
+from src.render import scene
+from src.render import camera
 
 class Window():
     def __init__(self, default_scene: type[scene.Scene]) -> None:
@@ -18,6 +19,7 @@ class Window():
         self.keep_open = False
 
         self.scene_manager = scene.SceneManager(default_scene)
+        self.camera = camera.Camera()
 
 
     def start(self):
@@ -39,10 +41,11 @@ class Window():
 
     def draw(self, cvs: pygame.Surface):
         cvs.fill(0x0)
-        self.scene_manager.draw_current(cvs)
+        self.scene_manager.draw_current(self.camera)
+        self.camera.render(self.canvas)
 
     def update(self, dt: float):
-        self.scene_manager.update_current(dt)
+        self.scene_manager.update_current(dt, self.camera)
 
     def event(self, dt: float):
         for e in pygame.event.get():

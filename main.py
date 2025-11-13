@@ -3,10 +3,10 @@
 import pygame
 
 from src import window
-from src.scene import scenes
+from src.game import game
 
 if __name__ == "__main__":
     pygame.init()
 
-    wnd = window.Window(scenes.WorldScene)
+    wnd = window.Window(game.WorldScene)
     wnd.start()
