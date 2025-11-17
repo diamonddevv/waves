@@ -1,12 +1,14 @@
 import pygame
 import math
 
+from src import palette
 from src.render import camera
 
 class OceanRenderer():
     def __init__(self) -> None:
         self.w = 1600
-        self.color = 0xFF0000FF
+        self.color = palette.COLOR_BLUE
+        self.seafoam_color = palette.COLOR_SKY_BLUE
 
         self.age = 0.0
         self.tide = 1.0
@@ -25,12 +27,12 @@ class OceanRenderer():
 
         pygame.draw.rect(s, self.color, pygame.Rect(
                 surface_tl,
-                pygame.Vector2(self.w, 300)
+                pygame.Vector2(camera.scale_zoom(self.w), camera.scale_zoom(300))
             ))
         
         pygame.draw.lines(
-            s, 'lightblue', False,
-            [surface_tl + pygame.Vector2(x, self.tide * math.sin(x + self.age * self.current_speed)) 
+            s, self.seafoam_color, False,
+            [surface_tl + pygame.Vector2(camera.scale_zoom(x), camera.scale_zoom(self.tide * math.sin(x + self.age * self.current_speed))) 
              for x in range(0, self.w, 10)],
              width=5
         )

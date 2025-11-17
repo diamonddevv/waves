@@ -23,6 +23,9 @@ class Camera():
     def world_to_screen_coords_unpacked(self, x: float, y: float) -> pygame.Vector2:
         return self.world_to_screen_coords(pygame.Vector2(x, y))
     
+    def scale_zoom(self, x: float) -> float:
+        return x * self.zoom
+    
     def with_zindex(self, op: _SurfaceOp, zindex: int = 0):
         layer = self._frame_blits.get(zindex, ([], []))
         layer[0].append(op)
