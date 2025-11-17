@@ -3,7 +3,7 @@ import typing
 
 from src import consts
 
-type _SurfaceOp = typing.Callable[[pygame.Surface], None]
+type _SurfaceOp = typing.Callable[[pygame.Surface], typing.Any]
 type _BlitParams = tuple[pygame.Surface, pygame.Vector2]
 type _Op = _SurfaceOp | _BlitParams
 
@@ -19,6 +19,9 @@ class Camera():
     def world_to_screen_coords(self, world: pygame.Vector2) -> pygame.Vector2:
         pivot = (pygame.Vector2(consts.CANVAS_DIMS) / 2)
         return (world - self.focus) * self.zoom + pivot
+    
+    def world_to_screen_coords_unpacked(self, x: float, y: float) -> pygame.Vector2:
+        return self.world_to_screen_coords(pygame.Vector2(x, y))
     
     def with_zindex(self, op: _SurfaceOp, zindex: int = 0):
         layer = self._frame_blits.get(zindex, ([], []))
