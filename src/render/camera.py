@@ -52,10 +52,7 @@ class Camera():
         else:
             clip = area.clip(vp)
 
-            print(vp.w - clip.w)
-
-            #self.focus.x -= vp.x - clip.x
-            #self.focus.y -= vp.y - clip.y
+            print(vp.w - clip.w, vp.h - clip.h)
 
     def blit(self, surface: pygame.Surface, pos: pygame.Vector2, centered: bool = True, scale: float = 1, rotation: float = 0.0, skip_cull: bool = False, zindex: int = 0):
 
