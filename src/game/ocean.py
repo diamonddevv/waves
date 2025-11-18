@@ -34,5 +34,5 @@ class OceanRenderer():
             s, self.seafoam_color, False,
             [surface_tl + pygame.Vector2(camera.scale_zoom(x), camera.scale_zoom(self.tide * math.sin(x + self.age * self.current_speed))) 
              for x in range(0, self.w, 10)],
-             width=5
+             width=int(camera.scale_zoom(5))
         )

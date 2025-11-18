@@ -36,6 +36,27 @@ class Camera():
         layer[1].append(params)
         self._frame_blits[zindex] = layer
 
+    def vp(self, screencoord: bool = False) -> pygame.Rect:
+        dims = pygame.Vector2(consts.CANVAS_DIMS) / self.zoom
+        rect = pygame.Rect((self.focus - dims / 2), dims)
+        if screencoord:
+            rect.topleft = self.world_to_screen_coords_unpacked(*rect.topleft)
+            rect.size = consts.CANVAS_DIMS
+        return rect
+    
+    def clamp_vp(self, area: pygame.Rect):
+        vp = self.vp(screencoord=True)
+
+        if area.contains(vp):
+            return
+        else:
+            clip = area.clip(vp)
+
+            print(vp.w - clip.w)
+
+            #self.focus.x -= vp.x - clip.x
+            #self.focus.y -= vp.y - clip.y
+
     def blit(self, surface: pygame.Surface, pos: pygame.Vector2, centered: bool = True, scale: float = 1, rotation: float = 0.0, skip_cull: bool = False, zindex: int = 0):
 
         # resolve transformations
