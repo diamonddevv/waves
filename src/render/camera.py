@@ -12,7 +12,7 @@ class Camera():
     def __init__(self) -> None:
         self.focus = pygame.Vector2(0, 0)
         self.zoom = 1.0
-
+        self.bg_color = pygame.Color(0x0)
 
         self._frame_blits: dict[int, tuple[list[_SurfaceOp], list[_BlitParams]]] = {}
 
@@ -52,7 +52,15 @@ class Camera():
         else:
             clip = area.clip(vp)
 
-            print(vp.w - clip.w, vp.h - clip.h)
+            left = abs(vp.x - clip.x)
+            up = abs(vp.y - clip.y)
+            right = abs(vp.w - clip.w) if clip.x > area.x else 0
+            down = abs(vp.h - clip.h) if clip.y > area.y else 0
+
+            self.focus.x += left
+            self.focus.x -= right
+            self.focus.y += up
+            self.focus.y -= down
 
     def blit(self, surface: pygame.Surface, pos: pygame.Vector2, centered: bool = True, scale: float = 1, rotation: float = 0.0, skip_cull: bool = False, zindex: int = 0):
 
@@ -69,8 +77,12 @@ class Camera():
         # add op
         self.with_zindex_blit((surface, screen_pos), zindex=zindex)
 
+    def set_bg(self, color: pygame.Color):
+        self.bg_color = color
+
 
     def render(self, canvas: pygame.Surface):
+        canvas.fill(self.bg_color)
         for zindex in sorted(self._frame_blits, key=lambda k: k):
             layer = self._frame_blits[zindex]
             canvas.blits(layer[1])
